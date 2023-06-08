@@ -16,7 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="به صفحه ورود خوش آمدید"
-        android:textColor="@color/purple_700" />
+        android:textColor="@color/purple_700"
+        />
 
     <!--TextView2 widget inside ViewGroup1-->
     <TextView
@@ -55,7 +56,28 @@
             android:layout_marginTop="63dp"
             android:hint="رمز عبور" />
 
+
         <!--Button widget inside ViewGroup2-->
+
+        <EditText
+            android:id="@+id/repeat_password_text"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_below="@+id/password_text"
+            android:layout_marginTop="163dp"
+            android:hint="تکرار رمز عبور"
+            android:visibility="invisible"/>
+
+        <EditText
+            android:id="@+id/nikname"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_below="@+id/repeat_password_text"
+            android:layout_alignTop="@+id/repeat_password_text"
+            android:layout_marginTop="63dp"
+            android:hint="نام مستعار"
+            android:visibility="invisible"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
