@@ -26,4 +26,9 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    @NonNull
+    public String getPassword() {
+        return password;
+    }
 }
