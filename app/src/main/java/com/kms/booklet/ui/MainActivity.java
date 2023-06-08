@@ -1,13 +1,14 @@
-package com.kms.booklet;
+package com.kms.booklet.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.kms.booklet.R;
 
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 }
