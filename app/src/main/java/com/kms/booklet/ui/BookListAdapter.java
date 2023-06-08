@@ -36,7 +36,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookVi
         }
     }
 
-    void setUsers(List<Book> books){
+    void setBooks(List<Book> books){
         mBooks = books;
         notifyDataSetChanged();
     }
