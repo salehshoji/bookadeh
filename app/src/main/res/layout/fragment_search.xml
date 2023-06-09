@@ -6,15 +6,67 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <android.widget.SearchView
-        android:id="@+id/searchbar"
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@android:drawable/editbox_background"
-        android:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
-        android:iconifiedByDefault="false"
-        android:imeOptions="actionDone"
-        android:searchIcon="@android:drawable/ic_menu_search"
-        tools:layout_editor_absoluteX="-۱۵dp"
-        tools:layout_editor_absoluteY="۷۸dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:background="?attr/colorPrimary"
+        android:orientation="vertical"
+        android:padding="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.widget.SearchView
+            android:id="@+id/searchbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
+            android:iconifiedByDefault="false"
+            android:imeOptions="actionSearch"
+            android:background="@drawable/ic_searchbar_background"
+            android:searchIcon="@android:drawable/ic_menu_search"
+            android:queryBackground="@android:color/transparent"
+            android:elevation="2dp"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:checkedButton="@+id/search_for_title">
+
+            <RadioButton
+                android:id="@+id/search_for_title"
+                style="@style/SearchOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_title" />
+
+            <RadioButton
+                android:id="@+id/search_for_author"
+                style="@style/SearchOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_author" />
+
+            <RadioButton
+                android:id="@+id/search_for_publisher"
+                style="@style/SearchOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/book_publisher" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:padding="15dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
