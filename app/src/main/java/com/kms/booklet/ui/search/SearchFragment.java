@@ -1,10 +1,12 @@
 package com.kms.booklet.ui.search;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,8 +26,8 @@ public class SearchFragment extends Fragment {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSearch;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        SetupSearchBar();
+
         return root;
     }
 
@@ -33,5 +35,13 @@ public class SearchFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void SetupSearchBar(){
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchbar = binding.searchbar;
+        searchbar.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        searchbar.setOnQueryTextListener((SearchView.OnQueryTextListener) getActivity());
     }
 }
