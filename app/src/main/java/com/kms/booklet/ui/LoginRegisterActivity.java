@@ -30,13 +30,13 @@ public class LoginRegisterActivity extends AppCompatActivity {
             if (nickname.getVisibility() == View.INVISIBLE){
                 nickname.setVisibility(View.VISIBLE);
                 repeat_password_text.setVisibility(View.VISIBLE);
-                changeLoginRegister.setText(R.string.register_mode);
+                changeLoginRegister.setText(R.string.login_mode);
                 stay_checkbox.setVisibility(View.INVISIBLE);
 
             }else{
                 nickname.setVisibility(View.INVISIBLE);
                 repeat_password_text.setVisibility(View.INVISIBLE);
-                changeLoginRegister.setText(R.string.login_mode);
+                changeLoginRegister.setText(R.string.register_mode);
                 stay_checkbox.setVisibility(View.VISIBLE);
             }
         });
@@ -55,7 +55,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
         String username_text = ((EditText)findViewById(R.id.username_text)).getText().toString();
         String password_text = ((EditText)findViewById(R.id.password_text)).getText().toString();
         CheckBox stay_checkbox = findViewById(R.id.stay_checkbox);
-        User user = DataRepository.getInstance(getApplication()).getUserById(username_text.toString());
+        User user = DataRepository.getInstance(getApplication()).getUserById(username_text);
         // todo doshvari!!!
         if(user == null){
             Toast.makeText(LoginRegisterActivity.this, "wrong username", Toast.LENGTH_LONG).show();
@@ -65,7 +65,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
             Toast.makeText(LoginRegisterActivity.this, "wrong password", Toast.LENGTH_LONG).show();
             return;
         }
-        Config.username = username_text.toString();
+        Config.username = username_text;
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 

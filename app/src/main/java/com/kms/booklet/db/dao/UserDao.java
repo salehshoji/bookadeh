@@ -18,6 +18,11 @@ public interface UserDao {
     @Query("SELECT * from users ORDER BY username ASC")
     LiveData<List<User>> getAllUsers();
 
-    @Query("SELECT * from users where username == :name")
+    @Query("SELECT * from users where username = :name")
     User getUserById(String name);
+
+    @Query("UPDATE users set password=:password where username=:username")
+    void changePassword(String username, String password);
+    @Query("DELETE From users where username=:username")
+    void removeAccount(String username);
 }

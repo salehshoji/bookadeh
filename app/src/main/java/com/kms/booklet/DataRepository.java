@@ -69,4 +69,12 @@ public class DataRepository {
         }
         return mBookDataDao.getItemByOLID(OLID);
     }
+
+    public void changePassword(String username, String password) {
+        mUserDao.changePassword(username, password);
+    }
+
+    public void removeAccount(String username) {
+        mUserDao.removeAccount(username);
+    }
 }
