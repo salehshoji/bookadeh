@@ -36,4 +36,9 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    @NonNull
+    public String getNickName() {
+        return nickName;
+    }
 }

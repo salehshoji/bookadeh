@@ -52,16 +52,18 @@ public class LoginRegisterActivity extends AppCompatActivity {
     }
 
     private void loginFunc() {
-        EditText username_text = findViewById(R.id.username_text);
-        EditText password_text = findViewById(R.id.password_text);
+        String username_text = ((EditText)findViewById(R.id.username_text)).getText().toString();
+        String password_text = ((EditText)findViewById(R.id.password_text)).getText().toString();
         CheckBox stay_checkbox = findViewById(R.id.stay_checkbox);
         User user = DataRepository.getInstance(getApplication()).getUserById(username_text.toString());
         // todo doshvari!!!
         if(user == null){
             Toast.makeText(LoginRegisterActivity.this, "wrong username", Toast.LENGTH_LONG).show();
+            return;
         }
-        if (!user.getPassword().equals(password_text.toString())){
+        if (!user.getPassword().equals(password_text)){
             Toast.makeText(LoginRegisterActivity.this, "wrong password", Toast.LENGTH_LONG).show();
+            return;
         }
         Config.username = username_text.toString();
         Intent intent = new Intent(this, MainActivity.class);
@@ -70,24 +72,32 @@ public class LoginRegisterActivity extends AppCompatActivity {
     }
 
     private void registerFunc() {
-        EditText username_text = findViewById(R.id.username_text);
-        EditText password_text = findViewById(R.id.password_text);
-        EditText repeat_password_text = findViewById(R.id.repeat_password_text);
-        EditText nickname = findViewById(R.id.nickname);
+        String username_text = ((EditText)findViewById(R.id.username_text)).getText().toString();
+        String password_text = ((EditText)findViewById(R.id.password_text)).getText().toString();
+        String repeat_password_text = ((EditText)findViewById(R.id.repeat_password_text)).getText().toString();
+        String nickname = ((EditText)findViewById(R.id.nickname)).getText().toString();
         // todo if not null doshvari!!!
-        if (DataRepository.getInstance(getApplication()).getUserById(username_text.toString()) == null){
+        if (DataRepository.getInstance(getApplication()).getUserById(username_text) != null){
             Toast.makeText(LoginRegisterActivity.this, "username exists", Toast.LENGTH_LONG).show();
+            return;
         }
-        if (username_text.toString().length() > 30 || username_text.toString().length() < 6){
+        if (username_text.length() > 30 || username_text.length() < 6){
+
             Toast.makeText(LoginRegisterActivity.this, "username length wrong", Toast.LENGTH_LONG).show();
+            return;
         }
-        if (password_text.toString().length() > 30 || password_text.toString().length() < 6){
+        if (password_text.length() > 30 || password_text.length() < 6){
             Toast.makeText(LoginRegisterActivity.this, "password length wrong", Toast.LENGTH_LONG).show();
+            return;
         }
-        if (password_text != repeat_password_text){
+        if (nickname.length() > 30 || nickname.length() < 6){
+            Toast.makeText(LoginRegisterActivity.this, "nickname length wrong", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!password_text.equals(repeat_password_text)){
             Toast.makeText(LoginRegisterActivity.this, "password doesn't equal!", Toast.LENGTH_LONG).show();
         }else{
-            User user = new User(username_text.toString(), password_text.toString(), nickname.toString());
+            User user = new User(username_text, password_text, nickname);
             DataRepository.getInstance(getApplication()).insertUser(user);
         }
     }
