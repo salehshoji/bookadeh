@@ -43,10 +43,11 @@ public class AccountFragment extends Fragment {
         });
 
         change_password.setOnClickListener(v -> {
-            if(binding.passwordChange.getText() != binding.repeatPasswordChange.getText()){
+            if(binding.passwordChange.getText().toString().equals(binding.repeatPasswordChange.getText().toString())){
                 Toast.makeText(this.getContext(), "passwords aren't equal", Toast.LENGTH_LONG).show();
+                return;
             }
-            else if(binding.passwordChange.getText().length() > 30 || binding.passwordChange.getText().length() < 6){
+            else if(binding.passwordChange.getText().toString().length() > 30 || binding.passwordChange.getText().toString().length() < 6){
                 Toast.makeText(this.getContext(), "password length wrong", Toast.LENGTH_LONG).show();
                 return;
             }
