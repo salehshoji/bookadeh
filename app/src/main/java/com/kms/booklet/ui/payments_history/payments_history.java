@@ -3,6 +3,7 @@ package com.kms.booklet.ui.payments_history;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import com.kms.booklet.R;
 
@@ -16,5 +17,8 @@ public class payments_history extends AppCompatActivity {
 
     public void show() {
         //check database for payment history of user, add them to list view, recycle id == histories
+
+
+
     }
 }

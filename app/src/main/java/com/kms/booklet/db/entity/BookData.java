@@ -25,6 +25,11 @@ public class BookData {
     @ColumnInfo(name = "cover")
     private String cover_url;
 
+    @NonNull
+    public String getTitle() {
+        return title;
+    }
+
     /* {
     "url": "https://openlibrary.org/books/OL24764937M/The_lord_of_the_rings_J.R.R._Tolkien",
     "key": "/books/OL24764937M",
