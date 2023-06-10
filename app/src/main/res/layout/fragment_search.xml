@@ -22,15 +22,17 @@
             android:id="@+id/searchbar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginBottom="10sp"
+            android:background="@drawable/ic_searchbar_background"
             android:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
+            android:elevation="2dp"
             android:iconifiedByDefault="false"
             android:imeOptions="actionSearch"
-            android:background="@drawable/ic_searchbar_background"
-            android:searchIcon="@android:drawable/ic_menu_search"
             android:queryBackground="@android:color/transparent"
-            android:elevation="2dp"/>
+            android:searchIcon="@android:drawable/ic_menu_search" />
 
         <RadioGroup
+            android:id="@+id/search_type_radio_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:checkedButton="@+id/search_for_title">
@@ -60,13 +62,13 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_results"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="@dimen/nav_view_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        android:padding="15dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.paging:paging-runtime:3.1.1'
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
             because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
@@ -59,4 +60,19 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:$rootProject.lifecycle_version"
     // Annotation processor
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
+
+    // Retrofit library dependency
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // Gson Library dependency for json to object conversion
+    implementation 'com.google.code.gson:gson:2.9.0'
+    // Gson support adapter for Retrofit
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    // RxJava3 support for paging library
+    implementation 'androidx.paging:paging-common:3.1.1'
+    implementation 'androidx.paging:paging-rxjava3:3.1.1'
+    // Retrofit support adapter for Java
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+    //Logging Network Calls
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 }

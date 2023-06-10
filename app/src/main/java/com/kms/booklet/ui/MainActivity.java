@@ -8,20 +8,22 @@ import android.widget.SearchView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.kms.booklet.DataRepository;
 import com.kms.booklet.R;
 import com.kms.booklet.databinding.ActivityMainBinding;
 import com.kms.booklet.model.SearchType;
+import com.kms.booklet.ui.search.SearchViewModel;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private static final String SEARCH_TYPE_EXTRA = "com.kms.booklet.SEARCH_TYPE_EXTRA";
 
     private ActivityMainBinding binding;
+    private SearchViewModel searchViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 searchType = (SearchType) appData.getSerializable(SEARCH_TYPE_EXTRA);
             }
 
-            DataRepository.getInstance(getApplication()).searchBooksByName(query);
+            searchViewModel.setSearchQuery(query);
         }
     }
 

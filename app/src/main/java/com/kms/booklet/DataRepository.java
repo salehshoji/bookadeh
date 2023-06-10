@@ -1,14 +1,31 @@
 package com.kms.booklet;
 
 import android.app.Application;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
+import androidx.paging.PagingData;
 
+import com.kms.booklet.api.APIClient;
 import com.kms.booklet.db.MainDB;
 import com.kms.booklet.db.dao.UserDao;
 import com.kms.booklet.db.entity.User;
+import com.kms.booklet.model.Book;
+import com.kms.booklet.model.SearchResponse;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class DataRepository {
     private UserDao mUserDao;
@@ -39,5 +56,9 @@ public class DataRepository {
 
     public void insertUser(User user) {
         mUserDao.insert(user);
+    }
+
+    public List<Book> searchBooksByName(String bookName){
+        return new ArrayList<>();
     }
 }
