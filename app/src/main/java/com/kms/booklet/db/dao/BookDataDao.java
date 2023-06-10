@@ -1,5 +1,6 @@
 package com.kms.booklet.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -13,5 +14,5 @@ public interface BookDataDao {
     void insertItems(BookData bookData);
 
     @Query("SELECT * FROM books_data WHERE olid = :olid LIMIT 1")
-    BookData getItemByOLID(String olid);
+    LiveData<BookData> getItemByOLID(String olid);
 }

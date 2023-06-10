@@ -1,6 +1,8 @@
 package com.kms.booklet;
 
 import android.app.Application;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagingSource;
@@ -11,13 +13,17 @@ import com.kms.booklet.db.dao.BookDataDao;
 import com.kms.booklet.db.dao.UserDao;
 import com.kms.booklet.db.entity.BookData;
 import com.kms.booklet.db.entity.User;
+import com.kms.booklet.model.BookResponse;
 import com.kms.booklet.model.SearchResponse;
 import com.kms.booklet.model.SearchResultItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class DataRepository {
     private UserDao mUserDao;
@@ -40,6 +46,7 @@ public class DataRepository {
 
     DataRepository(Application application) {
         MainDB db = MainDB.getDatabase(application);
+        mBookDataDao = db.bookDataDao();
         mUserDao = db.userDao();
         mAllUsers = mUserDao.getAllUsers();
     }
@@ -60,14 +67,36 @@ public class DataRepository {
         return new ArrayList<>();
     }
 
-    public BookData getBookDataByOLID(String OLID){
-        BookData bookData = mBookDataDao.getItemByOLID(OLID);
-        if(bookData == null){
-            APIClient.getAPIInterface()
-                    .getBookByOLID(OLID, "data", "json")
-                    .subscribeOn(Schedulers.io());
+    public LiveData<BookData> getBookDataByOLID(String OLID){
+        LiveData<BookData> bookData = mBookDataDao.getItemByOLID(OLID);
+        if(bookData.getValue() == null){
+            new GetBookTask().execute(OLID);
         }
-        return mBookDataDao.getItemByOLID(OLID);
+        return bookData;
+    }
+
+    private class GetBookTask extends AsyncTask<String, Void, Response<BookResponse>>{
+        @Override
+        protected Response<BookResponse> doInBackground(String... strings) {
+            Call<BookResponse> request = APIClient.getAPIInterface()
+                    .getBookByOLID(strings[0], "data", "json");
+
+            Log.d("TEST", "doInBackground: " + request.request().url().toString());
+            try {
+                request.timeout().timeout(10000, java.util.concurrent.TimeUnit.MILLISECONDS);
+                Response<BookResponse> res = request.execute();
+                return res;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        protected void onPostExecute(Response<BookResponse> result) {
+            Log.d("TEST", "doInBackground: " + result.body().getData());
+
+
+            mBookDataDao.insertItems(result.body().getData());
+        }
     }
 
     public void changePassword(String username, String password) {

@@ -1,5 +1,8 @@
 package com.kms.booklet.db;
 
+import com.google.gson.Gson;
+import com.kms.booklet.db.entity.BookData;
+import com.kms.booklet.model.BookResponse;
 import com.kms.booklet.model.SearchResponse;
 
 import io.reactivex.rxjava3.core.Single;
@@ -12,5 +15,5 @@ public interface OpenLibraryService {
     Single<SearchResponse> searchForBook(@Query("title") String title, @Query("page") int page);
 
     @GET("api/books")
-    Single<SearchResponse> getBookByOLID(@Query("bibkeys") String bibkeys, @Query("jscmd") String jscmd,@Query("format") String format);
+    Call<BookResponse> getBookByOLID(@Query("bibkeys") String bibkeys, @Query("jscmd") String jscmd, @Query("format") String format);
 }

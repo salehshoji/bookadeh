@@ -4,30 +4,70 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+@TypeConverters({TestConverter.class})
 @Entity(tableName = "books_data")
 public class BookData {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "OLId")
+    @SerializedName("key")
+    @Expose
     private String OLID;
 
     @NonNull
     @ColumnInfo(name = "title")
+    @SerializedName("title")
+    @Expose
     private String title;
 
-    @NonNull
+/*    @NonNull
     @ColumnInfo(name = "authors")
-    private List<Author> authors;
+    private ArrayList<Author> authors;*/
 
     @ColumnInfo(name = "cover")
     private String cover_url;
 
+    public BookData(@NonNull String OLID, @NonNull String title, String cover_url) {
+        this.OLID = OLID;
+        this.title = title;
+        this.cover_url = cover_url;
+    }
+
     @NonNull
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(@NonNull String title) {
+        this.title = title;
+    }
+
+    public void setOLID(@NonNull String OLID) {
+        this.OLID = OLID;
+    }
+
+    public void setCover_url(String cover_url) {
+        this.cover_url = cover_url;
+    }
+
+    @NonNull
+    public String getOLID() {
+        return OLID;
+    }
+
+    public String getCover_url() {
+        return cover_url;
     }
 
     /* {
@@ -112,4 +152,19 @@ public class BookData {
       "large": "https://covers.openlibrary.org/b/id/6818779-L.jpg"
     }
   }*/
+}
+
+class TestConverter{
+    @TypeConverter
+    public static ArrayList<String> fromString(String value) {
+        Type listType = new TypeToken<ArrayList<String>>() {}.getType();
+        return new Gson().fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromArrayList(ArrayList<String> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        return json;
+    }
 }

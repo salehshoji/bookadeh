@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
@@ -17,6 +18,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.kms.booklet.DataRepository;
 import com.kms.booklet.R;
 import com.kms.booklet.databinding.ActivityMainBinding;
 import com.kms.booklet.model.SearchType;
@@ -46,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
+/*        DataRepository.getInstance(getApplication()).getBookDataByOLID("OLID:OL24764937M").observe(this, bookData -> {
+            if (bookData != null) {
+                Log.d("TEST", "book: " + bookData.getTitle());
+            }
+        });*/
     }
 
     @Override
