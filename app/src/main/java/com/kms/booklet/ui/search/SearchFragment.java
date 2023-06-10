@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.LoadState;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,8 +31,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 public class SearchFragment extends Fragment {
 
     private FragmentSearchBinding binding;
-    BookListAdapter bookListAdapter;
-
+    private static BookListAdapter bookListAdapter;
     SearchViewModel searchViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -43,11 +45,14 @@ public class SearchFragment extends Fragment {
         final RadioGroup searchType = binding.searchTypeRadioGroup;
         SetupSearchBar();
 
-        bookListAdapter = new BookListAdapter(new BookComparator());
+        if (bookListAdapter == null) {
+            bookListAdapter = new BookListAdapter(new BookComparator());
+        }
 
         initRecyclerviewAndAdapter();
 
-        searchViewModel.searchQuery.observe(getViewLifecycleOwner(), query -> bookListAdapter.refresh());
+
+        searchViewModel.searchQuery.removeObservers(getViewLifecycleOwner());
 
         binding.searchLoadingRetryButton.setOnClickListener(v -> bookListAdapter.retry());
 
@@ -55,7 +60,48 @@ public class SearchFragment extends Fragment {
             bookListAdapter.submitData(getLifecycle(), pagingData);
         });
 
-        searchViewModel.loadingState.observe(getViewLifecycleOwner(), loadState -> {
+        searchViewModel.loadingState.observe(getViewLifecycleOwner(), new LoadingObserver());
+
+        return root;
+    }
+
+    private void initRecyclerviewAndAdapter() {
+        binding.searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        binding.searchResults.setAdapter(bookListAdapter.withLoadStateFooter(
+                new SearchScreenLoadStateAdaptor(v -> bookListAdapter.retry())));
+
+        bookListAdapter.addLoadStateListener(loadStates -> {
+            searchViewModel.setLoadingState(loadStates.getRefresh());
+            return null;
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //searchViewModel.searchQuery.removeObservers(getViewLifecycleOwner());
+        //searchViewModel.loadingState.removeObservers(getViewLifecycleOwner());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    private void SetupSearchBar() {
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchbar = binding.searchbar;
+        searchbar.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        searchbar.setOnQueryTextListener((SearchView.OnQueryTextListener) getActivity());
+    }
+
+    public class LoadingObserver implements Observer<LoadState> {
+        @Override
+        public void onChanged(LoadState loadState) {
+            Log.d("TEST", "onCreateView: aaaaaaaaaaaa");
             if (loadState instanceof LoadState.Error) {
                 Throwable error = ((LoadState.Error) loadState).getError();
                 if (error instanceof NoSearchQueryException) {
@@ -75,34 +121,6 @@ public class SearchFragment extends Fragment {
                     ? View.VISIBLE : View.GONE);
             binding.searchLoadingErrorMsg.setVisibility(loadState instanceof LoadState.Error
                     ? View.VISIBLE : View.GONE);
-        });
-
-        return root;
-    }
-
-    private void initRecyclerviewAndAdapter() {
-        binding.searchResults.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        binding.searchResults.setAdapter(bookListAdapter.withLoadStateFooter(
-                new SearchScreenLoadStateAdaptor(v -> bookListAdapter.retry())));
-
-        bookListAdapter.addLoadStateListener(loadStates -> {
-            searchViewModel.setLoadingState(loadStates.getRefresh());
-            return null;
-        });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    private void SetupSearchBar() {
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchbar = binding.searchbar;
-        searchbar.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-
-        searchbar.setOnQueryTextListener((SearchView.OnQueryTextListener) getActivity());
+        }
     }
 }

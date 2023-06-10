@@ -1,34 +1,28 @@
 package com.kms.booklet;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.loader.content.AsyncTaskLoader;
-import androidx.loader.content.Loader;
-import androidx.paging.PagingData;
+import androidx.paging.PagingSource;
 
 import com.kms.booklet.api.APIClient;
 import com.kms.booklet.db.MainDB;
+import com.kms.booklet.db.dao.BookDataDao;
 import com.kms.booklet.db.dao.UserDao;
+import com.kms.booklet.db.entity.BookData;
 import com.kms.booklet.db.entity.User;
-import com.kms.booklet.model.Book;
 import com.kms.booklet.model.SearchResponse;
+import com.kms.booklet.model.SearchResultItem;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Response;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DataRepository {
     private UserDao mUserDao;
+    private BookDataDao mBookDataDao;
+
     private LiveData<List<User>> mAllUsers;
 
     private static volatile DataRepository sInstance;
@@ -60,7 +54,19 @@ public class DataRepository {
         mUserDao.insert(user);
     }
 
-    public List<Book> searchBooksByName(String bookName){
+
+
+    public List<SearchResultItem> searchBooksByName(String bookName){
         return new ArrayList<>();
+    }
+
+    public BookData getBookDataByOLID(String OLID){
+        BookData bookData = mBookDataDao.getItemByOLID(OLID);
+        if(bookData == null){
+            APIClient.getAPIInterface()
+                    .getBookByOLID(OLID, "data", "json")
+                    .subscribeOn(Schedulers.io());
+        }
+        return mBookDataDao.getItemByOLID(OLID);
     }
 }

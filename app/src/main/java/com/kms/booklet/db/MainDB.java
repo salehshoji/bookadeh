@@ -6,10 +6,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.kms.booklet.db.dao.BookDataDao;
 import com.kms.booklet.db.dao.UserDao;
+import com.kms.booklet.db.entity.BookData;
 import com.kms.booklet.db.entity.User;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, BookData.class}, version = 1, exportSchema = false)
 public abstract class MainDB extends RoomDatabase {
 
     private static volatile MainDB INSTANCE;
@@ -28,4 +30,6 @@ public abstract class MainDB extends RoomDatabase {
     }
 
     public abstract UserDao userDao();
+
+    public abstract BookDataDao bookDataDao();
 }

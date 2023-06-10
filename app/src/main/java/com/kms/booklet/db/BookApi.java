@@ -10,7 +10,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.AsyncTaskLoader;
 import androidx.loader.content.Loader;
 
-import com.kms.booklet.model.Book;
+import com.kms.booklet.model.SearchResultItem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,26 +22,26 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class BookApi implements LoaderManager.LoaderCallbacks<List<Book>> {
+public class BookApi implements LoaderManager.LoaderCallbacks<List<SearchResultItem>> {
 
     @NonNull
     @Override
-    public Loader<List<Book>> onCreateLoader(int id, @Nullable Bundle args) {
+    public Loader<List<SearchResultItem>> onCreateLoader(int id, @Nullable Bundle args) {
         return new SearchForBook(null, null);
     }
 
     @Override
-    public void onLoadFinished(@NonNull Loader<List<Book>> loader, List<Book> data) {
+    public void onLoadFinished(@NonNull Loader<List<SearchResultItem>> loader, List<SearchResultItem> data) {
 
     }
 
     @Override
-    public void onLoaderReset(@NonNull Loader<List<Book>> loader) {
+    public void onLoaderReset(@NonNull Loader<List<SearchResultItem>> loader) {
 
     }
 
     // make http request to api async
-    public static class SearchForBook extends AsyncTaskLoader<List<Book>> {
+    public static class SearchForBook extends AsyncTaskLoader<List<SearchResultItem>> {
         // Base URL for Books API.
         private static final String BOOK_BASE_URL = "https://www.googleapis.com/books/v1/volumes?";
         // Parameter for the search string.
@@ -60,8 +60,8 @@ public class BookApi implements LoaderManager.LoaderCallbacks<List<Book>> {
 
         @Nullable
         @Override
-        public List<Book> loadInBackground() {
-            List<Book> data = new ArrayList<Book>();
+        public List<SearchResultItem> loadInBackground() {
+            List<SearchResultItem> data = new ArrayList<SearchResultItem>();
 
             HttpsURLConnection urlConnection = null;
             BufferedReader reader = null;

@@ -1,7 +1,5 @@
 package com.kms.booklet.paging;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.paging.PagingSource;
@@ -10,7 +8,7 @@ import androidx.paging.rxjava3.RxPagingSource;
 
 import com.kms.booklet.api.APIClient;
 import com.kms.booklet.exception.NoSearchQueryException;
-import com.kms.booklet.model.Book;
+import com.kms.booklet.model.SearchResultItem;
 import com.kms.booklet.model.SearchResponse;
 
 import java.util.List;
@@ -18,10 +16,10 @@ import java.util.List;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class OpenLibraryPagingSource extends RxPagingSource<Integer, Book> {
+public class OpenLibraryPagingSource extends RxPagingSource<Integer, SearchResultItem> {
     private String currentSearchQuery;
 
-    public static PagingSource<java.lang.Integer, com.kms.booklet.model.Book> newInstance(String currentSearchQuery) {
+    public static PagingSource<java.lang.Integer, SearchResultItem> newInstance(String currentSearchQuery) {
         OpenLibraryPagingSource obj = new OpenLibraryPagingSource();
         obj.setCurrentSearchQuery(currentSearchQuery);
         return obj;
@@ -29,7 +27,7 @@ public class OpenLibraryPagingSource extends RxPagingSource<Integer, Book> {
 
     @Nullable
     @Override
-    public Integer getRefreshKey(@NonNull PagingState<Integer, Book> pagingState) {
+    public Integer getRefreshKey(@NonNull PagingState<Integer, SearchResultItem> pagingState) {
         return null;
         /*int anchorPosition = pagingState.getAnchorPosition();
         Integer key = pagingState.closestPageToPosition(anchorPosition).getPrevKey();
@@ -68,7 +66,7 @@ public class OpenLibraryPagingSource extends RxPagingSource<Integer, Book> {
 
     @NonNull
     @Override
-    public Single<LoadResult<Integer, Book>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
+    public Single<LoadResult<Integer, SearchResultItem>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
         try {
             // If page number is already there then init page variable with it otherwise we are loading fist page
             int page = loadParams.getKey() != null ? loadParams.getKey() : 1;
@@ -94,8 +92,8 @@ public class OpenLibraryPagingSource extends RxPagingSource<Integer, Book> {
     }
 
     // Method to map Movies to LoadResult object
-    private LoadResult<Integer, Book> toLoadResult(List<Book> books, int page) {
-        return new LoadResult.Page<>(books, page == 1 ? null : page - 1, books.size() > 0 ? page + 1 : null);
+    private LoadResult<Integer, SearchResultItem> toLoadResult(List<SearchResultItem> searchResultItems, int page) {
+        return new LoadResult.Page<>(searchResultItems, page == 1 ? null : page - 1, searchResultItems.size() > 0 ? page + 1 : null);
     }
 
     public void setCurrentSearchQuery(String currentSearchQuery) {

@@ -3,7 +3,7 @@ package com.kms.booklet.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BookResponse {
+public class SearchResultItem {
     @SerializedName("key")
     @Expose
     private String key;

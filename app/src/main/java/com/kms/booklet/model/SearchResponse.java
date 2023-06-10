@@ -12,7 +12,7 @@ public class SearchResponse {
 
     @SerializedName("docs")
     @Expose
-    private List<Book> docs = null;
+    private List<SearchResultItem> docs = null;
 
     @SerializedName("numFound")
     @Expose
@@ -26,11 +26,11 @@ public class SearchResponse {
         return start;
     }
 
-    public void setDocs(List<Book> docs) {
+    public void setDocs(List<SearchResultItem> docs) {
         this.docs = docs;
     }
 
-    public List<Book> getDocs() {
+    public List<SearchResultItem> getDocs() {
         return docs;
     }
 
