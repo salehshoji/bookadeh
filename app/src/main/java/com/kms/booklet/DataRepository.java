@@ -54,6 +54,8 @@ public class DataRepository {
         return mAllUsers;
     }
 
+    public User getUserById(String username){return mUserDao.getUserById(username);}
+
     public void insertUser(User user) {
         mUserDao.insert(user);
     }

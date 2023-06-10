@@ -3,7 +3,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
@@ -54,6 +53,7 @@
             android:layout_below="@id/username_text"
             android:layout_alignParentTop="true"
             android:layout_marginTop="63dp"
+            android:inputType="textPassword"
             android:hint="رمز عبور" />
 
 
@@ -66,10 +66,11 @@
             android:layout_below="@+id/password_text"
             android:layout_marginTop="163dp"
             android:hint="تکرار رمز عبور"
+            android:inputType="textPassword"
             android:visibility="invisible"/>
 
         <EditText
-            android:id="@+id/nikname"
+            android:id="@+id/nickname"
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_below="@+id/repeat_password_text"
@@ -79,6 +80,7 @@
             android:visibility="invisible"/>
 
         <Button
+            android:id="@+id/lets_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/password_text"
@@ -86,6 +88,17 @@
             android:layout_marginTop="39dp"
             android:onClick="login_function"
             android:text="بزن بریم" />
+
+        <Button
+            android:id="@+id/login_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="39dp"
+            android:layout_marginEnd="134dp"
+            android:onClick="login_function"
+            android:text="@string/register_mode" />
 
         <CheckBox
             android:id="@+id/stay_checkbox"

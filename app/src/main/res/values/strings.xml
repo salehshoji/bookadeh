@@ -10,4 +10,6 @@
     <string name="book_publisher">Book Publisher</string>
     <string name="retry">Retry</string>
     <string name="error_default_msg">"Sorry! Something went wrong"</string>
+    <string name="register_mode">ثبت نام کنیم؟</string>
+    <string name="login_mode">بریم برای ورود!</string>
 </resources>
