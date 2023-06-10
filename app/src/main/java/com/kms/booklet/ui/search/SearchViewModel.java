@@ -1,24 +1,20 @@
 package com.kms.booklet.ui.search;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelKt;
 import androidx.paging.LoadState;
 import androidx.paging.Pager;
 import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
 import androidx.paging.rxjava3.PagingRx;
 
-import com.kms.booklet.model.Book;
+import com.kms.booklet.model.SearchResultItem;
 import com.kms.booklet.paging.OpenLibraryPagingSource;
 
 import io.reactivex.rxjava3.core.Flowable;
-import kotlinx.coroutines.CoroutineScope;
 
 public class SearchViewModel extends ViewModel {
-    public Flowable<PagingData<Book>> searchResultPagingDataFlowable;
+    public Flowable<PagingData<SearchResultItem>> searchResultPagingDataFlowable;
 
     MutableLiveData<String> searchQuery = new MutableLiveData<>();
 
@@ -31,7 +27,7 @@ public class SearchViewModel extends ViewModel {
 
     // Init ViewModel Data
     private void init() {
-        Pager<Integer, Book> pager = new Pager<>(
+        Pager<Integer, SearchResultItem> pager = new Pager<>(
                 // Create new paging config
                 new PagingConfig(20, //  Count of items in one page
                         20, //  Number of items to prefetch
@@ -41,8 +37,8 @@ public class SearchViewModel extends ViewModel {
                 () -> OpenLibraryPagingSource.newInstance(searchQuery.getValue())); // set paging source
 
         searchResultPagingDataFlowable = PagingRx.getFlowable(pager);
-        CoroutineScope coroutineScope = ViewModelKt.getViewModelScope(this);
-        PagingRx.cachedIn(searchResultPagingDataFlowable, coroutineScope);
+        //CoroutineScope coroutineScope = ViewModelKt.getViewModelScope(this);
+        //PagingRx.cachedIn(searchResultPagingDataFlowable, coroutineScope);
     }
 
     public void setSearchQuery(String query) {
@@ -50,7 +46,6 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void setLoadingState(LoadState state) {
-        Log.d("TEST", "setLoadingState: " + state);
         loadingState.setValue(state);
     }
 

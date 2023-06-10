@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kms.booklet.databinding.BookItemBinding;
-import com.kms.booklet.model.Book;
+import com.kms.booklet.model.SearchResultItem;
 
-public class BookListAdapter extends PagingDataAdapter<Book, BookListAdapter.BookViewHolder> {
+public class BookListAdapter extends PagingDataAdapter<SearchResultItem, BookListAdapter.BookViewHolder> {
     public static final int LOADING_ITEM = 0;
     public static final int BOOK_ITEM = 1;
 
-    public BookListAdapter(@NonNull DiffUtil.ItemCallback<Book> diffCallback) {
+    public BookListAdapter(@NonNull DiffUtil.ItemCallback<SearchResultItem> diffCallback) {
         super(diffCallback);
 
     }
@@ -29,11 +29,11 @@ public class BookListAdapter extends PagingDataAdapter<Book, BookListAdapter.Boo
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         // Get current movie
-        Book currentBook = getItem(position);
+        SearchResultItem currentSearchResultItem = getItem(position);
         // Check for null
-        if (currentBook != null) {
+        if (currentSearchResultItem != null) {
             // Set rating of movie
-            holder.bookItemBinding.bookTitle.setText(String.valueOf(currentBook.getTitle()));
+            holder.bookItemBinding.bookTitle.setText(String.valueOf(currentSearchResultItem.getTitle()));
         }
     }
 

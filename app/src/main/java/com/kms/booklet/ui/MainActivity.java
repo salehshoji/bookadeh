@@ -1,8 +1,11 @@
 package com.kms.booklet.ui;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -76,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         Bundle appData = new Bundle();
         appData.putSerializable(SEARCH_TYPE_EXTRA, SearchType.AUTHOR);
         searchIntent.putExtra(SearchManager.APP_DATA, appData);
+
+        hideKeyboard(this);
 
         startActivity(searchIntent);
 
