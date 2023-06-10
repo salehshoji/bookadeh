@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.pay_page.pay_page">
+
+    <Button
+        android:id="@+id/last_pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="83dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="pay_page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/books"
+        android:layout_width="338dp"
+        android:layout_height="388dp"
+        android:layout_marginTop="16dp"
+        android:text="books"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+
+    <EditText
+        android:id="@+id/editTextText3"
+        android:layout_width="125dp"
+        android:layout_height="49dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="total price :"
+        app:layout_constraintEnd_toStartOf="@+id/price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/books" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="267dp"
+        android:layout_height="43dp"
+        android:text="price"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/books" />
+</androidx.constraintlayout.widget.ConstraintLayout>
