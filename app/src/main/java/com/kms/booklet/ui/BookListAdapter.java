@@ -12,20 +12,17 @@ import com.kms.booklet.databinding.BookItemBinding;
 import com.kms.booklet.model.Book;
 
 public class BookListAdapter extends PagingDataAdapter<Book, BookListAdapter.BookViewHolder> {
-
-    // Define Loading ViewType
     public static final int LOADING_ITEM = 0;
-    // Define Book ViewType
     public static final int BOOK_ITEM = 1;
 
     public BookListAdapter(@NonNull DiffUtil.ItemCallback<Book> diffCallback) {
         super(diffCallback);
+
     }
 
     @NonNull
     @Override
-    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Return MovieViewHolder
+    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         return new BookViewHolder(BookItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
@@ -42,17 +39,14 @@ public class BookListAdapter extends PagingDataAdapter<Book, BookListAdapter.Boo
 
     @Override
     public int getItemViewType(int position) {
-        // set ViewType
         return position == getItemCount() ? BOOK_ITEM : LOADING_ITEM;
     }
 
     public class BookViewHolder extends RecyclerView.ViewHolder {
-        // Define movie_item layout view binding
         BookItemBinding bookItemBinding;
 
         public BookViewHolder(@NonNull BookItemBinding bookItemBinding) {
             super(bookItemBinding.getRoot());
-            // init binding
             this.bookItemBinding = bookItemBinding;
         }
     }

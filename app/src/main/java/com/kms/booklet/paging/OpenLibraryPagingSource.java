@@ -1,5 +1,7 @@
 package com.kms.booklet.paging;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.paging.PagingSource;
@@ -7,6 +9,7 @@ import androidx.paging.PagingState;
 import androidx.paging.rxjava3.RxPagingSource;
 
 import com.kms.booklet.api.APIClient;
+import com.kms.booklet.exception.NoSearchQueryException;
 import com.kms.booklet.model.Book;
 import com.kms.booklet.model.SearchResponse;
 
@@ -71,7 +74,7 @@ public class OpenLibraryPagingSource extends RxPagingSource<Integer, Book> {
             int page = loadParams.getKey() != null ? loadParams.getKey() : 1;
 
             if(currentSearchQuery == null) {
-                return Single.just(new LoadResult.Error<>(new Exception("No search query")));
+                return Single.just(new LoadResult.Error<>(new NoSearchQueryException()));
             }
             // Send request to server with page number
             return APIClient.getAPIInterface()

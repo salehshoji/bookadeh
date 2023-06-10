@@ -1,8 +1,11 @@
 package com.kms.booklet.ui.search;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelKt;
+import androidx.paging.LoadState;
 import androidx.paging.Pager;
 import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
@@ -19,6 +22,9 @@ public class SearchViewModel extends ViewModel {
 
     MutableLiveData<String> searchQuery = new MutableLiveData<>();
 
+    MutableLiveData<LoadState> loadingState = new MutableLiveData<>();
+
+
     public SearchViewModel() {
         init();
     }
@@ -34,9 +40,6 @@ public class SearchViewModel extends ViewModel {
                         20 * 499),// maxSize - Count of total items to be shown in recyclerview
                 () -> OpenLibraryPagingSource.newInstance(searchQuery.getValue())); // set paging source
 
-        //searchResultLiveData = PagingLiveData.getLiveData(pager);
-
-        // Get Flowable from Pager
         searchResultPagingDataFlowable = PagingRx.getFlowable(pager);
         CoroutineScope coroutineScope = ViewModelKt.getViewModelScope(this);
         PagingRx.cachedIn(searchResultPagingDataFlowable, coroutineScope);
@@ -44,6 +47,11 @@ public class SearchViewModel extends ViewModel {
 
     public void setSearchQuery(String query) {
         searchQuery.setValue(query);
+    }
+
+    public void setLoadingState(LoadState state) {
+        Log.d("TEST", "setLoadingState: " + state);
+        loadingState.setValue(state);
     }
 
 /*    public class MyAsyncTask extends AsyncTask<String, Void, Response<SearchResponse>> {
